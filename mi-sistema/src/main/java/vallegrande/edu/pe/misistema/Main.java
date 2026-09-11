@@ -11,8 +11,6 @@ public class Main extends Application {
     public void start(Stage stage) {
         MainView view = new MainView();
         new MainController(view);
-
-        // Puedes mantener 900x600 o cambiar la altura a 650 si deseas más espacio vertical
         Scene scene = new Scene(view, 900, 650);
         stage.setTitle("MI SISTEMA");
         stage.setScene(scene);
