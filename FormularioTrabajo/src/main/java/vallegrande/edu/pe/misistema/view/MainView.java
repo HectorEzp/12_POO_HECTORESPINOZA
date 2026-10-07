@@ -22,14 +22,18 @@ public class MainView extends BorderPane {
     private Button btnInicio;
     private Button btnUsuarios;
 
-    // NUEVO: campos del formulario de registro
+    // Campos del formulario
     private TextField txtNombre;
     private TextField txtApellido;
     private TextField txtCorreo;
     private TextField txtEstado;
 
-    // NUEVO: botón para registrar un usuario
+    // Botón para registrar un usuario
     private Button btnRegistrar;
+
+    // NUEVO: botones para actualizar y eliminar
+    private Button btnActualizar;
+    private Button btnEliminar;
 
     // Tabla donde mostraremos los usuarios
     private TableView<Usuario> tablaUsuarios;
@@ -42,7 +46,7 @@ public class MainView extends BorderPane {
         // Creamos la tabla
         crearTabla();
 
-        // NUEVO: creamos los campos y el botón del formulario
+        // Creamos los campos y el botón del formulario
         crearFormulario();
 
         // Mostramos Inicio al abrir el sistema
@@ -151,8 +155,8 @@ public class MainView extends BorderPane {
                         "-fx-font-weight: bold;"
         );
 
-        // NUEVO: agregamos los campos del formulario,
-        // el botón Registrar y la tabla
+        // Agregamos los campos del formulario,
+        // los botones y la tabla
         contenido.getChildren().addAll(
                 titulo,
                 txtNombre,
@@ -160,6 +164,12 @@ public class MainView extends BorderPane {
                 txtCorreo,
                 txtEstado,
                 btnRegistrar,
+
+                // NUEVO: agregamos los botones
+                // para actualizar y eliminar
+                btnActualizar,
+                btnEliminar,
+
                 tablaUsuarios
         );
 
@@ -167,103 +177,41 @@ public class MainView extends BorderPane {
         setCenter(contenido);
     }
 
-    // NUEVO: crea los elementos del formulario
+    // Crea los elementos del formulario
     private void crearFormulario() {
 
-        // NUEVO: campo para ingresar el nombre
+        // Campo para ingresar el nombre
         txtNombre = new TextField();
 
-        // NUEVO: texto de ayuda que aparece dentro del campo
+        // Texto de ayuda que aparece dentro del campo
         txtNombre.setPromptText("Nombre");
 
-        // NUEVO: campo para ingresar el apellido
+        // Campo para ingresar el apellido
         txtApellido = new TextField();
 
-        // NUEVO: texto de ayuda del campo
+        // Texto de ayuda del campo
         txtApellido.setPromptText("Apellido");
 
-        // NUEVO: campo para ingresar el correo
+        // Campo para ingresar el correo
         txtCorreo = new TextField();
 
-        // NUEVO: texto de ayuda del campo
+        // Texto de ayuda del campo
         txtCorreo.setPromptText("Correo");
 
-        // NUEVO: campo para ingresar el estado
+        // Campo para ingresar el estado
         txtEstado = new TextField();
 
-        // NUEVO: texto de ayuda del campo
+        // Texto de ayuda del campo
         txtEstado.setPromptText("Estado");
 
-        // NUEVO: botón que permitirá registrar el usuario
+        // Botón que permite registrar el usuario
         btnRegistrar = new Button("Registrar");
 
-        // Estilo visual del formulario (colores y bordes)
-        estilizarCampo(txtNombre);
-        estilizarCampo(txtApellido);
-        estilizarCampo(txtCorreo);
-        estilizarCampo(txtEstado);
-        estilizarBoton(btnRegistrar);
-    }
+        // NUEVO: botón para actualizar un usuario
+        btnActualizar = new Button("Actualizar");
 
-    // Estilo de los campos: fondo menta, borde redondeado
-    // y borde más fuerte cuando el campo está seleccionado
-    private void estilizarCampo(TextField campo) {
-
-        final String normal =
-                "-fx-background-color: #F0FDFA;" +
-                        "-fx-border-color: #99F6E4;" +
-                        "-fx-border-width: 1.5;" +
-                        "-fx-border-radius: 8;" +
-                        "-fx-background-radius: 8;" +
-                        "-fx-padding: 9 12 9 12;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-text-fill: #134E4A;" +
-                        "-fx-prompt-text-fill: #5EAAA3;";
-
-        final String enfocado =
-                "-fx-background-color: #FFFFFF;" +
-                        "-fx-border-color: #0F766E;" +
-                        "-fx-border-width: 2;" +
-                        "-fx-border-radius: 8;" +
-                        "-fx-background-radius: 8;" +
-                        "-fx-padding: 9 12 9 12;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-text-fill: #134E4A;" +
-                        "-fx-prompt-text-fill: #5EAAA3;";
-
-        campo.setStyle(normal);
-
-        campo.focusedProperty().addListener((obs, antes, ahora) ->
-                campo.setStyle(ahora ? enfocado : normal)
-        );
-    }
-
-    // Estilo del botón Registrar: verde azulado, texto blanco
-    // y un tono más oscuro al pasar el mouse
-    private void estilizarBoton(Button boton) {
-
-        final String normal =
-                "-fx-background-color: #0F766E;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-background-radius: 8;" +
-                        "-fx-padding: 10 28 10 28;" +
-                        "-fx-cursor: hand;";
-
-        final String encima =
-                "-fx-background-color: #115E59;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-background-radius: 8;" +
-                        "-fx-padding: 10 28 10 28;" +
-                        "-fx-cursor: hand;";
-
-        boton.setStyle(normal);
-
-        boton.setOnMouseEntered(e -> boton.setStyle(encima));
-        boton.setOnMouseExited(e -> boton.setStyle(normal));
+        // NUEVO: botón para eliminar un usuario
+        btnEliminar = new Button("Eliminar");
     }
 
     // Crea la tabla de usuarios
@@ -340,33 +288,73 @@ public class MainView extends BorderPane {
         return btnUsuarios;
     }
 
-    // NUEVO: permite que el Controller acceda al botón Registrar
+    // Permite que el Controller acceda al botón Registrar
     public Button getBtnRegistrar() {
 
         return btnRegistrar;
     }
 
-    // NUEVO: obtiene el nombre escrito en el formulario
+    // Obtiene el nombre escrito en el formulario
     public String getNombre() {
 
         return txtNombre.getText();
     }
 
-    // NUEVO: obtiene el apellido escrito en el formulario
+    // Obtiene el apellido escrito en el formulario
     public String getApellido() {
 
         return txtApellido.getText();
     }
 
-    // NUEVO: obtiene el correo escrito en el formulario
+    // Obtiene el correo escrito en el formulario
     public String getCorreo() {
 
         return txtCorreo.getText();
     }
 
-    // NUEVO: obtiene el estado escrito en el formulario
+    // Obtiene el estado escrito en el formulario
     public String getEstado() {
 
         return txtEstado.getText();
+    }
+
+    // NUEVO: permite que el Controller acceda
+    // al botón Actualizar
+    public Button getBtnActualizar() {
+
+        return btnActualizar;
+    }
+
+    // NUEVO: permite que el Controller acceda
+    // al botón Eliminar
+    public Button getBtnEliminar() {
+
+        return btnEliminar;
+    }
+
+    // NUEVO: obtiene el usuario seleccionado
+    // en la TableView
+    public Usuario getUsuarioSeleccionado() {
+
+        return tablaUsuarios
+                .getSelectionModel()
+                .getSelectedItem();
+    }
+
+    // NUEVO: carga los datos del usuario
+    // seleccionado en el formulario
+    public void cargarUsuarioEnFormulario(Usuario usuario) {
+
+        txtNombre.setText(usuario.getNombre());
+        txtApellido.setText(usuario.getApellido());
+        txtCorreo.setText(usuario.getCorreo());
+        txtEstado.setText(usuario.getEstado());
+    }
+
+    // NUEVO: permite que el Controller acceda
+    // a la tabla de usuarios
+    public TableView<Usuario> getTablaUsuarios() {
+
+        return tablaUsuarios;
     }
 }
